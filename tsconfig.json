@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "lib": [ "ES6" ]
+    },
+    "include": [ "documentation/kex/headers/kex.d.ts" ],
+    "exclude": [ "documentation/static/**" ]
+}

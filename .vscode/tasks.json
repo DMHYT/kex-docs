@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run typedoc",
+            "type": "shell",
+            "command": "grunt docs_api",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Initialize Environment",
+            "type": "shell",
+            "options": {
+                "cwd": "documentation"
+            },
+            "command": "npm install --safe-dev",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
