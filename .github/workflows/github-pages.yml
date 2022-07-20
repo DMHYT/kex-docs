@@ -27,10 +27,8 @@ jobs:
       - name: Build docs
         run: grunt docs_api
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.6
+        uses: JamesIves/github-pages-deploy-action@4.3.4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: master
-          BRANCH: gh-pages
-          FOLDER: out
+          folder: out
+          branch: gh-pages
           single-commit: true
