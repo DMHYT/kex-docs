@@ -1,1 +1,1 @@
-- [API](/api/ ':ignore :target=_self')
+- [API](./api/ ':ignore :target=_self')
