@@ -5,6 +5,7 @@ window.$docsify = {
     loadSidebar: "config/_sidebar.md",
     loadNavbar: "config/_navbar.md",
     subMaxLevel: 4,
+    basePath: "https://dmhyt.github.io/kex-docs/",
     relativePath: true,
     nameLink: {
         "/ru/": "#/ru/",
