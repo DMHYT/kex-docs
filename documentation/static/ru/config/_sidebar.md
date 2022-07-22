@@ -1,1 +1,1 @@
-- [API Kernel Extension](/api/)
+- [API Kernel Extension](/api/ ':ignore')

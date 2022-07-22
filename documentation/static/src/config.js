@@ -13,7 +13,6 @@ window.$docsify = {
         "/": "#/",
     },
     alias: {
-        "/api/": "/api/index.html",
         "/": `https://raw.githubusercontent.com/${GIT_SRC}/gh-pages/`,
         "/ru/.*?config/_navbar.md": `https://raw.githubusercontent.com/${GIT_SRC}/gh-pages/ru/config/_navbar.md`,
         "/ru/.*?config/_sidebar.md": `https://raw.githubusercontent.com/${GIT_SRC}/gh-pages/ru/config/_sidebar.md`,
@@ -58,17 +57,7 @@ window.$docsify = {
         text: ">Last Modify: {docsify-updated}",
         formatUpdated: "{YYYY}/{MM}/{DD}",
     },
-    $not_in_api: true,
     plugins: [
-        function (hook, vm) {
-            hook.beforeEach(function (html) {
-                if(vm.route.file === "api/index.html" && !window.location.href.endsWith("api/index.html")) {
-                    window.location.href = window.location.href.replace("index.html#/api/", 
-                        window.$docsify.$not_in_api ? "index.html#/" : "api/index.html");
-                    window.$docsify.$not_in_api = window.location.href.endsWith("api/index.html");
-                }
-            });
-        },
         function (hook, vm) {
             hook.beforeEach(function (html) {
                 if (/githubusercontent\.com/.test(vm.route.file)) {
