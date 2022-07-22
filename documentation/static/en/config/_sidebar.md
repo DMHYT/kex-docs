@@ -1,1 +1,1 @@
-- [Kernel Extension API](/api/ ':ignore')
+- [Kernel Extension API](api ':ignore :target=_self')
