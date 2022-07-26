@@ -64,8 +64,9 @@ declare module KEX {
 
         /**
          * Sets the multiplier that will be used in calculating the amount of experience to add to a player
-         * (or to drop from a broken furnace) after smelting the item with given ID.
-         * Default value is 0.0, meat has 0.35, golden ore has 1.0 (1.0 = 100% chance of dropping any XP)
+         * (or to drop from a broken furnace) after smelting the item with given ID (the method must be applied
+         * to the result and not to the ingredient).
+         * Default value is 0.0, cooked meat has 0.35, golden ingot has 1.0 (1.0 = 100% chance of dropping any XP)
          * @param id numeric ID of the item to apply this property to, vanilla supported
          * @since 1.0
          */
