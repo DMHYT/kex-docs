@@ -31,7 +31,8 @@ declare module KEX {
         /**
          * @returns whether a ticking area exists by given name
          * in the given dimension. Dimension parameter is needed because
-         * every dimension has its own ticking areas list, and differen
+         * every dimension has its own ticking areas list, and it's possible
+         * that two areas with the same name exist at the same time in different dimensions
          * @since 3.0
          */
         hasArea(areaName: any_string, dimension: WorldOrDimension): number;
