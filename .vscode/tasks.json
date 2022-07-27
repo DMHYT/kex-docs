@@ -4,7 +4,7 @@
         {
             "label": "Run typedoc",
             "type": "shell",
-            "command": "grunt docs_api",
+            "command": "grunt docs_api api_link_fix",
             "group": {
                 "kind": "build",
                 "isDefault": true

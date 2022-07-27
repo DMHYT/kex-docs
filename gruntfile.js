@@ -58,5 +58,62 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-typedoc");
     grunt.registerTask("docs_api", [ "concat", "typedoc", "copy" ]);
+    grunt.registerTask("api_link_fix", () => {
+        const fs = require("fs");
+        const path = require("path");
+        if(!String.prototype.replaceAll)
+            String.prototype.replaceAll = function(str, newStr) {
+                return Object.prototype.toString.call(str).toLowerCase() === "[object regexp]" ?
+                    this.replace(str, newStr) : this.replace(new RegExp(str, 'g'), newStr);
+            }
+        const listFiles = (dirPath, arrayOfFiles) => {
+            const files = fs.readdirSync(dirPath);
+            arrayOfFiles = arrayOfFiles || [];
+            files.forEach(file => {
+                if(fs.statSync(`${dirPath}/${file}`).isDirectory())
+                    arrayOfFiles = listFiles(`${dirPath}/${file}`, arrayOfFiles);
+                else arrayOfFiles.push(path.join(dirPath, "/", file));
+            });
+            return arrayOfFiles;
+        }
+        const neededLinks = {};
+        const linksJson = JSON.parse(fs.readFileSync("links.json"));
+        for(let name in linksJson) {
+            const split = linksJson[name].split(":");
+            neededLinks[name] = [ `https://${split[0]}`, split[1] ];
+        }
+        let fixedLinksCount = 0;
+        listFiles("out/api/")
+            .filter(filePath => filePath.endsWith(".html"))
+            .forEach(filePath => fs.writeFileSync(filePath, 
+                fs.readFileSync(filePath).toString()
+                    .replaceAll(
+                        /<span class="tsd-signature-type">(.*?)<\/span>/gm,
+                        (match, type) => {
+                            type = type.split("."), type = type[type.length - 1];
+                            if(!neededLinks[type]) return match;
+                            ++fixedLinksCount;
+                            return `<a href="${neededLinks[type][0]}" class="tsd-signature-type" data-tsd-kind="${neededLinks[type][1]}" target="_blank">${type}</a>`;
+                        }
+                    )
+                    .replaceAll(
+                        /\[\[(.*?)\]\]/gm, (match, type) => {
+                            const components = type.split(".");
+                            const isClassMember =
+                                components[components.length - 1][0] === components[components.length - 1][0].toLowerCase() &&
+                                components[components.length - 2] &&
+                                components[components.length - 2][0] === components[components.length - 2][0].toUpperCase();
+                            const typeName = components[components.length - (isClassMember ? 2 : 1)];
+                            if(!neededLinks[typeName]) return match;
+                            ++fixedLinksCount;
+                            const link = isClassMember ?
+                                `${neededLinks[typeName][0]}#${components[components.length - 1]}` :
+                                neededLinks[typeName][0];
+                            return `<a href="${link}" target="_blank">${type}</a>`
+                        }
+                    )
+            ));
+        console.log(`Successfully added ${fixedLinksCount} links to external documentation websites`);
+    });
     grunt.registerTask("copyf", [ "copy" ]);
 };
