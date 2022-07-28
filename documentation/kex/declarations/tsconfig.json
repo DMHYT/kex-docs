@@ -3,6 +3,7 @@
         "target": "ES5",
         "lib": [ "ES6" ]
     },
+    "compileOnSave": false,
     "include": [
         "../headers/core-engine.d.ts",
         "**/*.d.ts"
