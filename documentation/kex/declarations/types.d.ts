@@ -98,3 +98,57 @@ declare type EnchantTypes =
     "riptide" |
     "loyalty" |
     "channeling";
+
+
+/**
+ * Type alias listing all the string food saturation modifiers defined by vanilla.
+ * - `"poor"` = 0.2
+ * - `"low"` = 0.6
+ * - `"normal"` = 1.2
+ * - `"good"` = 1.6
+ * - `"max"` = 2.0
+ * - `"supernatural"` = 2.4
+ */
+declare type VanillaFoodSaturationModifiers =
+    "poor" |
+    "low" |
+    "normal" |
+    "good" |
+    "max" |
+    "supernatural";
+
+
+/**
+ * Type alias listing all the vanilla potion effect string types.
+ * Used in [[Item.FoodEffect.name]].
+ */
+declare type PotionEffectTypes =
+    "movement_speed" |
+    "movement_slowdown" |
+    "dig_speed" |
+    "dig_slowdown" |
+    "damage_boost" |
+    "heal" |
+    "harm" |
+    "jump" |
+    "confusion" |
+    "regeneration" |
+    "damage_resistance" |
+    "fire_resistance" |
+    "water_breathing" |
+    "invisibility" |
+    "blindness" |
+    "night_vision" |
+    "hunger" |
+    "weakness" |
+    "poison" |
+    "wither" |
+    "health_boost" |
+    "absorption" |
+    "saturation" |
+    "levitation" |
+    "fatal_poison" |
+    "conduit_power" |
+    "slow_falling" |
+    "bad_omen" |
+    "village_hero";
