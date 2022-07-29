@@ -29,6 +29,8 @@
     "String": "developer.android.com/reference/java/lang/String:Class",
     "TextureData": "docs.mineprogramming.org/api/interfaces/Item.TextureData.html:Interface",
     "ToolAPI": "docs.mineprogramming.org/api/modules/ToolAPI.html:",
+    "ToolMaterial": "docs.mineprogramming.org/api/interfaces/ToolAPI.ToolMaterial.html:Interface",
+    "ToolParams": "docs.mineprogramming.org/api/interfaces/ToolAPI.ToolParams.html:Interface",
     "Translation": "docs.mineprogramming.org/api/modules/Translation.html:",
     "Vector": "docs.mineprogramming.org/api/interfaces/Vector.html:Interface"
 }
