@@ -1,5 +1,6 @@
 {
     "ArrayList": "developer.android.com/reference/java/util/ArrayList:Class",
+    "Bitmap": "developer.android.com/reference/android/graphics/Bitmap:Class",
     "BlockSource": "docs.mineprogramming.org/api/classes/BlockSource.html:Class",
     "BlockState": "docs.mineprogramming.org/api/classes/BlockState.html:Class",
     "Class": "developer.android.com/reference/java/lang/Class:Class",
@@ -8,6 +9,7 @@
     "Entity": "docs.mineprogramming.org/api/modules/Entity.html:",
     "IDRegistry": "docs.mineprogramming.org/api/modules/IDRegistry.html:",
     "IllegalArgumentException": "developer.android.com/reference/java/lang/IllegalArgumentException:Class",
+    "IllegalStateException": "developer.android.com/reference/java/lang/IllegalStateException:Class",
     "Item": "docs.mineprogramming.org/api/modules/Item.html:",
     "ItemExtraData": "docs.mineprogramming.org/api/classes/ItemExtraData.html:Class",
     "ItemInstance": "docs.mineprogramming.org/api/interfaces/ItemInstance.html:Interface",
