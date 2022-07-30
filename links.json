@@ -25,6 +25,7 @@
     "Partial": "www.typescriptlang.org/docs/handbook/utility-types.html#partialtype:Type alias",
     "PlayerActor": "docs.mineprogramming.org/api/classes/PlayerActor.html:Class",
     "Spliterator": "developer.android.com/reference/java/util/Spliterator:Interface",
+    "Set": "developer.android.com/reference/java/util/Set:Interface",
     "Stream": "developer.android.com/reference/java/util/stream/Stream:Interface",
     "String": "developer.android.com/reference/java/lang/String:Class",
     "TextureData": "docs.mineprogramming.org/api/interfaces/Item.TextureData.html:Interface",
