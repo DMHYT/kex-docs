@@ -71,7 +71,7 @@ export namespace Callback {
      * @param oldItem item instance of the player's hand before changing
      * @param newItem item instance of the player's hand after changing
      * @param hand 0=mainhand, 1=offhand
-     * @since 3.0
+     * @since 2.2.2
      */
     export interface ChangeCarriedItemFunction {
         (player: number, oldItem: ItemInstance, newItem: ItemInstance, hand: 0 | 1): void;
