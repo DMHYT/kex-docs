@@ -1,1 +1,2 @@
 - [API Kernel Extension](api ':ignore :target=_self')
+- [Список изменений](/ru/pages/changelog.md)

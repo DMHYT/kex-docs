@@ -1,1 +1,2 @@
 - [Kernel Extension API](api ':ignore :target=_self')
+- [Changelog](/en/pages/changelog.md)
