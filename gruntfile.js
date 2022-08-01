@@ -1,4 +1,11 @@
 module.exports = function(grunt) {
+    const fs = require("fs");
+    const path = require("path");
+    if(!String.prototype.replaceAll)
+    String.prototype.replaceAll = function(str, newStr) {
+        return Object.prototype.toString.call(str).toLowerCase() === "[object regexp]" ?
+            this.replace(str, newStr) : this.replace(new RegExp(str, 'g'), newStr);
+    }
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         concat: {
@@ -59,13 +66,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-typedoc");
     grunt.registerTask("docs_api", [ "concat", "typedoc", "copy" ]);
     grunt.registerTask("api_link_fix", () => {
-        const fs = require("fs");
-        const path = require("path");
-        if(!String.prototype.replaceAll)
-            String.prototype.replaceAll = function(str, newStr) {
-                return Object.prototype.toString.call(str).toLowerCase() === "[object regexp]" ?
-                    this.replace(str, newStr) : this.replace(new RegExp(str, 'g'), newStr);
-            }
         const listFiles = (dirPath, arrayOfFiles) => {
             const files = fs.readdirSync(dirPath);
             arrayOfFiles = arrayOfFiles || [];
@@ -114,6 +114,15 @@ module.exports = function(grunt) {
                     )
             ));
         console.log(`Successfully added ${fixedLinksCount} links to external documentation websites`);
+    });
+    grunt.registerTask("declarations_fix", () => {
+        fs.writeFileSync("out/headers/kex.d.ts",
+            fs.readFileSync("out/headers/kex.d.ts")
+                .toString()
+                .split("\n")
+                .map(el => el = el.replace(/^export namespace/, "declare namespace"))
+                .join("\n")
+        );
     });
     grunt.registerTask("copyf", [ "copy" ]);
 };

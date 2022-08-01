@@ -18,7 +18,7 @@
     "scripts": {
         "serve-docs": "docsify serve ./documentation/static",
         "serve-out": "docsify server ./out",
-        "build": "grunt docs_api api_link_fix",
+        "build": "grunt docs_api api_link_fix declarations_fix",
         "build-serve": "npm run build && npm run serve-out"
     },
     "repository": {
