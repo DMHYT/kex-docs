@@ -26,11 +26,11 @@ ConfigureMultiplayer({
 });
 
 ModAPI.addAPICallback("KernelExtension", function(api) {
-    // проверяете, есть ли функция getKEXVersion в объекте API, далее вызываете её и проверяете, подходит ли версия загруженного в сборку Kernel Extension для вашего мода
+    // проверяете, есть ли функция getKEXVersionCode в объекте API, далее вызываете её и проверяете, подходит ли версия загруженного в сборку Kernel Extension для вашего мода
     if(
-        typeof api.getKEXVersion === "function" &&
+        typeof api.getKEXVersionCode === "function" &&
         // в данном случае требуем версию 3.0 и выше
-        api.getKEXVersion() >= 300
+        api.getKEXVersionCode() >= 300
     ) {
         // запускаем мод, добавляя объект API в его скоуп
         Launch({ KEX: api });

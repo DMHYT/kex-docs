@@ -26,11 +26,11 @@ ConfigureMultiplayer({
 });
 
 ModAPI.addAPICallback("KernelExtension", function(api) {
-    // checking if getKEXVersion function exists in API object, then calling it and checking if the version is applicable for your mod
+    // checking if getKEXVersionCode function exists in API object, then calling it and checking if the version is applicable for your mod
     if(
-        typeof api.getKEXVersion === "function" &&
+        typeof api.getKEXVersionCode === "function" &&
         // in this case checking if the version is 3.0 or higher
-        api.getKEXVersion() >= 300
+        api.getKEXVersionCode() >= 300
     ) {
         // launching the mod adding the API object to its scope
         Launch({ KEX: api });
