@@ -19,7 +19,7 @@ module.exports = function(grunt) {
             build: {
                 options: {
                     out: "./out/api/",
-                    name: "Kernel Extension v3.0 API",
+                    name: "Kernel Extension v4.0 API",
                     readme: "./README.md",
                     theme: "default",
                     validation: { invalidLink: true },
