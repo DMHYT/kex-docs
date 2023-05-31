@@ -34,6 +34,11 @@ declare module KEX {
          * @since 1.0
          */
         setSleeping(sleeping: boolean): void;
+
+        /**
+         * @since 4.0
+         */
+        isSprinting(): boolean;
         
         /**
          * @since 1.0

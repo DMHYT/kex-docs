@@ -26,6 +26,8 @@ declare module KEX {
          * The identifier must be without `"namespace:"` (`"minecraft:"`),
          * the method does not support items created by addons (having namespace not `"minecraft"`)
          * @since 1.3
+         * @since 4.0 you're allowed to specify the string identifier with `"minecraft:"` namespace,
+         * it'll be automatically filtered out
          */
         export function getNumericIdFromIdentifier(identifier: any_string): number;
 

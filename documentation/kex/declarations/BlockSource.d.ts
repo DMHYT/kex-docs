@@ -72,6 +72,13 @@ declare module KEX {
          */
         getDimensionObject(): Nullable<Dimension>;
 
+        /**
+         * @returns wrapper [[TileEntityModule.BlockActor]] object for the custom native block entity
+         * on given coords, or null if there is no custom block entity found
+         * @since 4.0
+         */
+        getCustomBlockEntity(x: number, y: number, z: number): Nullable<TileEntityModule.BlockActor>;
+
     }
 
 }

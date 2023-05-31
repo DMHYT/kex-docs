@@ -16,6 +16,7 @@ declare module KEX {
          * @returns [[LootModifier]] object containing loads of functions
          * to modify the loot table how you wish
          * @since 1.0
+         * @since 4.0 you can use full loot table dir in `tableName` parameter, same as in the rest of the module's methods
          */
         export function createLootTableModifier(tableName: any_string): LootModifier;
 
@@ -55,6 +56,7 @@ declare module KEX {
          * @param cb function to be called after the items list is chosen by vanilla
          * @param priority callback priority, the more it is, the earlier than other callbacks your callback will be called, default is 0
          * @since 1.2
+         * @since 4.0 you can use full loot table dir in `tableName` parameter, same as in the rest of the module's methods
          */
         export function addOnDropCallbackFor(tableName: any_string, cb: OnDropCallback, priority?: number): void;
 
@@ -96,6 +98,29 @@ declare module KEX {
         export function forceLoad(tableName: any_string): void;
 
         /**
+         * Adds new loot pool condition that you can add to `"conditions"` array in your loot table's JSON,
+         * and specify its behavior without any limits in your code.
+         * @param conditionName name of the condition that will have to be put in `"condition"` param of condition's JSON object.
+         * @param callback function to be called on the loot pool that owns this condition and must return true or false,
+         * depending on whether the condition was met or not
+         * @since 4.0
+         */
+        export function registerCustomLootCondition(conditionName: any_string, callback: CustomLootConditionCallback): void;
+
+        /**
+         * Adds new loot pool condition that you can add to `"conditions"` array in your loot table's JSON,
+         * and specify its behavior without any limits in your code.
+         * 
+         * Same as [[registerCustomLootCondition]], but the function's first parameter is a JS object
+         * of condition's JSON description instead of [[org.json.JSONObject]].
+         * @param conditionName name of the condition that will have to be put in `"condition"` param of condition's JSON object.
+         * @param callback function to be called on the loot pool that owns this condition and must return true or false,
+         * depending on whether the condition was met or not
+         * @since 4.0
+         */
+        export function registerCustomLootConditionJS(conditionName: any_string, callback: CustomLootConditionCallbackJS): void;
+
+        /**
          * Adds new loot entry function that you can add to `"functions"` array in your loot table's JSON,
          * and specify its behavior without any limits in your code.
          * @param functionName name of the function that will have to be put in `"function"` param of function's JSON object.
@@ -115,6 +140,60 @@ declare module KEX {
          * @since 3.0
          */
         export function registerCustomLootFunctionJS(functionName: any_string, callback: CustomLootFunctionCallbackJS): void;
+
+        /**
+         * Runs the loot pool condition for your internal purposes
+         * @param json JSON description of the condition represented as an [[org.json.JSONObject]].
+         * You must have the `"condition"` field in it with the string identifier of the condition,
+         * in order for the method to determine and validate it.
+         * @param context [[LootTableContext]] object with the circumstances of the loot event. You can use
+         * a [[LootTableContext]] object provided to you by one of [[LootModule]] callbacks,
+         * or create and customize it yourself using [[LootTableContext.Builder]].
+         * @returns true or false depending on whether the condition was met or not.
+         * Returns false if the condition's JSON description is invalid.
+         * @since 4.0
+         */
+        export function runLootCondition(json: org.json.JSONObject, context: LootTableContext): boolean;
+
+        /**
+         * Runs the loot pool condition for your internal purposes
+         * @param json JSON description of the condition represented as a JS object.
+         * You must have the `"condition"` field in it with the string identifier of the condition,
+         * in order for the method to determine and validate it.
+         * @param context [[LootTableContext]] object with the circumstances of the loot event. You can use
+         * a [[LootTableContext]] object provided to you by one of [[LootModule]] callbacks,
+         * or create and customize it yourself using [[LootTableContext.Builder]].
+         * @returns true or false depending on whether the condition was met or not.
+         * Returns false if the condition's JSON description is invalid.
+         * @since 4.0
+         */
+        export function runLootCondition(json: {
+            condition: any_string,
+            [key: string]: any
+        }, context: LootTableContext): boolean;
+
+        /**
+         * Function used in [[LootModule.registerCustomLootCondition]].
+         * @param json [[org.json.JSONObject]] representation of loot pool condition's JSON description
+         * @param context [[LootTableContext]] object to access the circumstances of the loot event
+         * @since 4.0
+         */
+        export interface CustomLootConditionCallback {
+            (json: org.json.JSONObject, context: LootTableContext): boolean;
+        }
+
+        /**
+         * Function used in [[LootModule.registerCustomLootConditionJS]].
+         * @param json JS object representation of loot pool condition's JSON description.
+         * @param context [[LootTableContext]] object to access the circumstances of the loot event
+         * @since 4.0
+         */
+        export interface CustomLootConditionCallbackJS {
+            (json: {
+                condition: jstring,
+                [key: string]: any
+            }, context: LootTableContext): boolean;
+        }
 
         /**
          * Function used in [[LootModule.registerCustomLootFunction]].
@@ -224,6 +303,21 @@ declare module KEX {
          * @since 1.0
          */
         export interface LootModifier {
+
+            /**
+             * After calling this method, all the further modifications applied to the following [[LootModifier]]
+             * (basically all of its methods) will be ignored. Worth noticing that the [[LootModifier]] on which
+             * the [[lock]] method was called, **cannot be unlocked**.
+             * @returns reference to itself to be used in sequential calls
+             * @since 4.0
+             */
+            lock(): LootModifier;
+
+            /**
+             * @returns whether the following [[LootModifier]] had the [[lock]] method called on it at least once
+             * @since 4.0
+             */
+            isLocked(): boolean;
 
             /**
              * Adds new loot pool to the loot table with 1 roll
@@ -533,6 +627,61 @@ declare module KEX {
              * @since 1.0
              */
             addRandomRegionalDifficultyChanceCondition(maxChance: number): LootConditions;
+
+            /**
+             * Adds condition registered using [[LootModule.registerCustomLootCondition]] or [[LootModule.registerCustomLootConditionJS]].
+             * 
+             * You don't need to specify condition's name in `"condition"` param of JSON description, it's internally put there.
+             * 
+             * In fact, you can use this method not only with KEX-registered conditions, but also,
+             * for example, with vanilla ones that are currently not supported by [[LootConditions]].
+             * @param json condition's JSON description as an [[org.json.JSONObject]]
+             * @returns reference to itself to be used in sequential calls
+             * @since 4.0
+             */
+            addCustomCondition(conditionName: any_string, json: org.json.JSONObject): LootConditions;
+
+            /**
+             * Adds condition registered using [[LootModule.registerCustomLootCondition]] or [[LootModule.registerCustomLootConditionJS]].
+             * 
+             * You don't need to specify condition's name in `"condition"` param of JSON description, it's internally put there.
+             * 
+             * In fact, you can use this method not only with KEX-registered conditions, but also,
+             * for example, with vanilla ones that are currently not supported by [[LootConditions]].
+             * @param json condition's JSON description as a JS object
+             * @returns reference to itself to be used in sequential calls
+             * @since 4.0
+             */
+            addCustomCondition(conditionName: any_string, json: {
+                condition: any_string,
+                [key: string]: any
+            }): LootConditions;
+
+            /**
+             * Adds `"and"` condition, the condition that is met only if **all** of its sub-conditions are met
+             * @param clauses list of sub-conditions, create it using [[LootModule.createConditionsList]]
+             * @returns reference to itself to be used in sequential calls
+             * @since 4.0
+             */
+            addANDCondition(clauses: LootConditions): LootConditions;
+
+            /**
+             * Adds `"or"` condition, the condition that is met if **any** of its sub-conditions is met
+             * @param clauses list of sub-conditions, create it using [[LootModule.createConditionsList]]
+             * @returns reference to itself to be used in sequential calls
+             * @since 4.0
+             */
+            addORCondition(clauses: LootConditions): LootConditions;
+
+            /**
+             * Adds `"not"` condition, the condition that is met only if its sub-condition is **not** met
+             * @param clause the sub-condition. Use [[LootModule.createConditionsList]] to create this object.
+             * If you specify more than one condition to this list, the `"not(conditions[0])"` structure
+             * will be automatically replaced with `"not(and(...conditions))"`
+             * @returns reference to itself to be used in sequential calls
+             * @since 4.0
+             */
+            addNOTCondition(clause: LootConditions): LootConditions;
 
             /**
              * @returns [[LootPool]] that owns the following [[LootConditions]].
@@ -916,7 +1065,9 @@ declare module KEX {
                 ConditionRandomChance |
                 ConditionRandomChanceWithLooting |
                 ConditionRandomDifficultyChance |
-                ConditionNoParams;
+                ConditionNoParams |
+                ConditionAndOr |
+                ConditionNot;
             export interface Condition<NAME> {
                 condition: NAME;
             }
@@ -946,6 +1097,12 @@ declare module KEX {
                 peaceful?: number;
             }
             export interface ConditionNoParams extends Condition<"killed_by_player" | "killed_by_player_or_pets"> {}
+            export interface ConditionAndOr extends Condition<"and" | "or"> {
+                clauses: Conditions[];
+            }
+            export interface ConditionNot extends Condition<"not"> {
+                clause: Conditions;
+            }
             export type Entries =
                 EntryEmpty |
                 EntryLootTable |

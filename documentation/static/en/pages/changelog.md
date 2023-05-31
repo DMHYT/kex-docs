@@ -1,5 +1,40 @@
 # Kernel Extension mod updates changelog
 
+## **RELEASE 4.0**
+
+### _**Additions:**_
+
+- **Java blocks and items class system and registry**
+- Ability to create a new `kex-config.json` file in your mod directory and specify path to the KEX resource directory, relative to your mod directory path
+- Internal tools to parse JSON block and item models from KEX resource directories in mods
+- **Custom native block entity API for Java developers**: new `TileEntityModule`, `BlockActor` abstract Java class, new `KEX.BlockSource.getCustomBlockEntity` method
+- New **internal** `fixes module`:
+  - Brought back the ability to create custom block sound types and level sound event types in addons, broken by Mojang themselves
+- New `KEX.BlocksModule` with several new features for custom blocks:
+  - `registerComparatorSignalCallback(blockID, callback, isCallbackForced?)` - registers the block with given ID as a comparator signal emitter
+  - `setLightEmission(id, data, lightLevel)` and `getLightEmission(id, data)` - allow to specify separate light level values for different data values of the block with the same ID
+  - `registerOnStepOffCallback(blockID, callback)` - registers the function that will be called when an entity steps off a block with given ID
+  - `registerOnStepOnCallback(blockID, callback)` - patch for the InnerCore's `Block.registerEntityStepOnFunction`, which is broken as of `InnerCore 2.3.1b115`
+  - **All the listed methods have their duplicates in InnerCore's `Block` module:**
+    - `KEX.BlocksModule.registerComparatorSignalCallback` &rarr; `Block.registerComparatorSignalFunction`
+    - `KEX.BlocksModule.[set/get]LightEmission` &rarr; `Block.[set/get]LightLevel`
+    - `KEX.BlocksModule.registerOnStep[On/Off]Callback` &rarr; `Block.registerEntityStep[On/Off]Function`
+- New features in `KEX.LootModule`:
+  - `createLootTableModifier` and `addOnDropCallbackFor` methods now support full loot table dir, same as the rest of the module's methods
+  - Added method `LootModifier.lock`, which allows to prevent any further modifications of a certain loot table
+  - `registerCustomLootCondition[JS](conditionName, callback)` - adds new loot pool condition that you can add to `"conditions"` array in your loot table's JSON, and specify its behavior without any limits in your code.
+  - New `"and"`, `"or"` and `"not"` loot conditions
+  - `runLootCondition(json, context)` - allows you to get the result of a loot pool condition by given JSON description for your own purposes
+- `AddonUtils.getNumericIdFromIdentifier` can now take the string identifier **with** `"minecraft:"` prefix, automatically filtering it out internally
+- Added method `Mob.isSprinting`, which was by mistake not added far back in `RELEASE 1.0`
+- Added method `Level.isClientSide`
+
+### _**Bug fixes and improvements:**_
+
+- Updated mod toolchain and refactored a bunch of code fragments using Java 8 features
+- Made a major rework in `AddonUtils`, now you can use `getNumericIdFromIdentifier` not after `"LevelDisplayed"`, but after `"ModsLoaded"`
+- Fixed a major defect in `ItemsModule` item tooltip feature: item's aux value (data) previously wasn't used to form the caching key, so you could see many cases like granite, andesite, diorite etc. named "Stone".
+
 ## **RELEASE 3.0**
 
 ### _**Additions:**_

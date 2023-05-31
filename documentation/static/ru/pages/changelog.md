@@ -1,5 +1,40 @@
 # Список изменений в обновлениях мода Kernel Extension
 
+## **RELEASE 4.0**
+
+### _**Нововведения:**_
+
+- **Java-система классов блоков и предметов, и их регистрация**
+- Возможность создать новый файл `kex-config.json` в директории вашего мода и указать путь к директории ресурсов KEX относительно директории вашего мода
+- Внутренние утилиты для парсинга JSON-моделей блоков и предметов из директорий ресурсов KEX в модах
+- **API кастомных нативных BlockEntity для Java-разработчиков**: новый `TileEntityModule`, абстрактный Java-класс `BlockActor`, новый метод `KEX.BlockSource.getCustomBlockEntity`
+- Новый **внутренний** `модуль фиксов`:
+  - Восстановлена возможность создания кастомных типов звуков блоков и типов звуков мира в аддонах, сломанная самими же Mojang
+- Новый `KEX.BlocksModule` с несколькими новыми возможностями для кастомных блоков:
+  - `registerComparatorSignalCallback(blockID, callback, isCallbackForced?)` - регистрирует блок с данным ID как источник сигнала компаратора
+  - `setLightEmission(id, data, lightLevel)` и `getLightEmission(id, data)` - позволяют указать отдельные значения уровня света для разных значений даты блока с одним и тем же ID
+  - `registerOnStepOffCallback(blockID, callback)` - регистрирует функцию, которая будет вызываться когда сущность сходит с блока с данным ID
+  - `registerOnStepOnCallback(blockID, callback)` - патч метода InnerCore `Block.registerEntityStepOnFunction`, который сломан по состоянию на `InnerCore 2.3.1b115`
+  - **Все перечисленные методы имеют свои дубликаты в модуле InnerCore `Block`:**
+    - `KEX.BlocksModule.registerComparatorSignalCallback` &rarr; `Block.registerComparatorSignalFunction`
+    - `KEX.BlocksModule.[set/get]LightEmission` &rarr; `Block.[set/get]LightLevel`
+    - `KEX.BlocksModule.registerOnStep[On/Off]Callback` &rarr; `Block.registerEntityStep[On/Off]Function`
+- Нововведения в `KEX.LootModule`:
+  - Методы `createLootTableModifier` и `addOnDropCallbackFor` теперь поддерживают полный путь к лут-тейблу, так же само как остальные методы модуля.
+  - Добавлен метод `LootModifier.lock`, который позволяет предотвратить все последующие модификации определённого лут-тейбла
+  - `registerCustomLootCondition[JS](conditionName, callback)` - добавляет новое условие лут-пула, которое вы можеет добавить в массив `"conditions"` в JSON-описании вашего лут-тейбла, и определить его абсолютно не ограниченное в возможностях поведение в вашем коде.
+  - Новые лут-условия `"and"`, `"or"` и `"not"`
+  - `runLootCondition(json, context)` - позволяет вам получить результат лут-условия по данному JSON-описанию для ваших собственных целей
+- `AddonUtils.getNumericIdFromIdentifier` теперь может принимать строковой идентификатор **вместе с** префиксом `"minecraft:"`, автоматически отфильтровывая его внутренне.
+- Добавлен метод `Mob.isSprinting`, который по ошибке не был добавлен ещё в далёком `RELEASE 1.0`
+- Добавлен метод `Level.isClientSide`
+
+### _**Исправления багов и улучшения:**_
+
+- Обновлён тулчейн мода и зарефакторен ряд фрагментов кода, используя возможности Java 8
+- Сделана крупная переработка в `AddonUtils`, теперь вы можете использовать `getNumericIdFromIdentifier` не после `"LevelDisplayed"`, а уже после `"ModsLoaded"`
+- Исправлен крупный дефект в фиче тултипа предмета `ItemsModule`: aux-значение (дата) предмета ранее не использовалось для формирования ключа кеширования, так что вы могли видеть много случаев по типу гранита, андезита, диорита и т.д. под названием "Камень".
+
 ## **RELEASE 3.0**
 
 ### _**Нововведения:**_
