@@ -15,6 +15,12 @@ declare module KEX {
          */
         getTickingAreasManager(): Nullable<TickingAreasManager>;
 
+        /**
+         * @returns true if the following [[Level]] is client, false if it's server
+         * @since 4.0
+         */
+        isClientSide(): boolean;
+
     }
 
 }
