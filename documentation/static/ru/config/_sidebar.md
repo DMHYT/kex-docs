@@ -1,2 +1,8 @@
 - [API Kernel Extension](api ':ignore :target=_self')
 - [Список изменений](/ru/pages/changelog.md)
+- Гайды
+    - Full-Java разработка модов
+        - [Регистрация блоков и предметов](/ru/pages/guides/fulljava/blocks_and_items.md)
+        - [Объяснение "kex-config.json"](/ru/pages/guides/fulljava/kex_config.md)
+        - [JSON-модели](/ru/pages/guides/fulljava/models.md)
+        - [Блок-энтити](/ru/pages/guides/fulljava/block_entities.md)
