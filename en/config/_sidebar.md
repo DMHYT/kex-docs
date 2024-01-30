@@ -1,0 +1,8 @@
+- [Kernel Extension API](api ':ignore :target=_self')
+- [Changelog](/en/pages/changelog.md)
+- Guides
+    - Full-Java mod development
+        - [Blocks and items registry](/en/pages/guides/fulljava/blocks_and_items.md)
+        - ["kex-config.json" explained](/en/pages/guides/fulljava/kex_config.md)
+        - [JSON models](/en/pages/guides/fulljava/models.md)
+        - [Block entities](/en/pages/guides/fulljava/block_entities.md)
