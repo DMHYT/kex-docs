@@ -1,6 +1,6 @@
 const GIT_SRC = "DMHYT/kex-docs";
 window.$docsify = {
-    name: "Kernel Extension v4.0 Docs",
+    name: "Kernel Extension v5.0 Docs",
     repo: GIT_SRC,
     loadSidebar: "config/_sidebar.md",
     loadNavbar: "config/_navbar.md",

@@ -74,10 +74,64 @@ declare module KEX {
 
         /**
          * @returns wrapper [[TileEntityModule.BlockActor]] object for the custom native block entity
+         * on given [[Math.BlockPos]], or null if there is no custom block entity found
+         * @since 5.0
+         */
+        getCustomBlockEntity(pos: Math.BlockPos): Nullable<TileEntityModule.BlockActor>;
+
+        /**
+         * @returns wrapper [[TileEntityModule.BlockActor]] object for the custom native block entity
          * on given coords, or null if there is no custom block entity found
          * @since 4.0
          */
         getCustomBlockEntity(x: number, y: number, z: number): Nullable<TileEntityModule.BlockActor>;
+
+        /**
+         * @returns [[BlockState]] object to access block properties
+         * on given [[Math.BlockPos]], or null if something went wrong getting the block state
+         * @since 5.0
+         */
+        getBlockState(pos: Math.BlockPos): Nullable<BlockState>;
+
+        /**
+         * @returns [[BlockState]] object to access block properties
+         * on given coordinates, or null if something went wrong getting the block state
+         */
+        getBlockState(x: number, y: number, z: number): Nullable<BlockState>;
+
+        /**
+         * Sets block properties object on given coordinates. Has to be called whenever
+         * you want to make changes to a certain block in the world.
+         * [[BlockState.setValue]] returns another [[BlockState]] object, which
+         * has to be specified here.
+         * @returns whether the block state was set successfully or not
+         * @since 5.0
+         */
+        setBlockState(x: number, y: number, z: number, state: BlockState, flags: number): boolean;
+
+        /**
+         * Same as [[setBlockState]] but without firing a block update event
+         * @returns whether the block state was set successfully or not
+         * @since 5.0
+         */
+        setBlockStateNoUpdate(x: number, y: number, z: number, state: BlockState): boolean;
+
+        /**
+         * New implementation of [[InnerCoreBlockSource.getBiome]], which gets the biome
+         * on given coordinates, even if the needed chunk is not loaded
+         * (takes from 3 to 5 ms in this case)
+         * @returns numeric ID of the biome on given coordinates
+         * @since 5.0
+         */
+        getBiome(x: number, z: number): number;
+
+        /**
+         * **Purely experimental** variant of [[getBiome]], which doesn't support modded biomes,
+         * gives 15-35% speed increase in the overworld, and 700-1000% increase in the nether
+         * @returns numeric ID of the biome on given coordinates
+         * @since 5.0
+         */
+        getBiomeFast(x: number, z: number): number;
 
     }
 

@@ -67,11 +67,12 @@ declare module KEX {
          * @param pointer pointer to the native block entity object that will have to be wrapped by your Java object,
          * represented by a signed 64-bit integer
          * @param type numeric ID of the following block entity's type
-         * @param pos block coordinates where the tile is being created
+         * @param pos block coordinates where the tile is being created, [[Math.BlockPos]] since 5.0
+         * (it was like that from the very beginning, but until 5.0 [[Math.BlockPos]] has not been declared)
          * @since 4.0
          */
         export interface TileEntityCreationCallback {
-            (pointer: number, type: number, pos: Vector): BlockActor;
+            (pointer: number, type: number, pos: Math.BlockPos): BlockActor;
         }
 
         /**
@@ -113,9 +114,12 @@ declare module KEX {
             
             /**
              * @returns block coordinates of the following [[BlockActor]]
+             * 
+             * [[Math.BlockPos]] since 5.0 (it was like that from the very beginning,
+             * but until 5.0 [[Math.BlockPos]] has not been declared)
              * @since 4.0
              */
-            getBlockPos(): Vector;
+            getBlockPos(): Math.BlockPos;
             
             /**
              * @returns numeric ID of the dimension the following [[BlockActor]] is in
@@ -237,6 +241,11 @@ declare module KEX {
              * @since 4.0
              */
             triggerEvent(id: number, type: number): void;
+
+            /**
+             * @since 5.0
+             */
+            onNeighborChanged(pos: Math.BlockPos): void;
             
             /**
              * @since 4.0
@@ -266,9 +275,11 @@ declare module KEX {
             onChunkUnloaded(): void;
             
             /**
+             * @param vec [[Math.Vec3d]] since 5.0 (it was like that from the very beginning,
+             * but until 5.0 [[Math.Vec3d]] has not been declared)
              * @since 4.0
              */
-            onUse(player: Player, side: number, vec: Vector): boolean;
+            onUse(player: Player, side: number, vec: Math.Vec3d): boolean;
             
             /**
              * @since 4.0

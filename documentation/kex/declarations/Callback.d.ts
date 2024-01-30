@@ -14,6 +14,7 @@ export namespace Callback {
     export function addCallback(name: "EntitySneakChanged", func: EntitySneakChangedFunction, priority?: number): void;
     export function addCallback(name: "ItemTooltip", func: KEX.ItemsModule.OnTooltipCallback, priority?: number): void;
     export function addCallback(name: "BlockEventEntityStepOff", func: globalThis.Block.EntityStepOnFunction, priority?: number): void;
+    export function addCallback(name: "BiomesInitialized", func: () => void, priority?: number): void;
 
     /**
      * Same as [[addCallback]], but using improved callback system allowing

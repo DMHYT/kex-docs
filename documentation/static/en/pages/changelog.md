@@ -1,5 +1,40 @@
 # Kernel Extension mod updates changelog
 
+## **RELEASE 5.0**
+
+### LAST MAJOR UPDATE, NEW FEATURES DEVELOPMENT DISCONTINUED
+
+### _**Additions:**_
+
+- **Block states API overhaul:**
+  - New `BlockState` class containing methods similar to those from Forge
+  - `BlockStates` namespace containing **functions to register custom block properties** and integer enum definitions for some of vanilla block properties
+  - `VanillaStates` namespace containing all of the vanilla block properties as `Property` objects
+  - InnerCore's `BlockState` replaced with KEX's `BlockState` everywhere it was used
+  - New method `BlocksModule.registerStateForBlock(id, property)`
+  - New `BlockSource` methods: `getBlockState`, `setBlockState`, `setBlockStateNoUpdate`
+- **Forge-like mod configurations** based on Android-adapted `night-config` library, more planned to be done with this
+- Added some internal vector math classes to shared API. See `KEX.Math` module in docs. As a result:
+  - New method `BlocksModule.registerComparatorSignalCallback` with other type of callback function using `BlockPos` and `Direction` classes instead of `Callback.ItemUseCoordinates` object
+  - New overload of `BlockSource.getCustomBlockEntity` with `BlockPos` instead of three coordinates
+  - `TileEntityCreationCallback`'s third parameter changed from `Vector` to `BlockPos`
+  - `BlockActor.getBlockPos` returns `BlockPos` instead of `Vector`
+  - New method `BlockActor.onNeighborChanged(blockPos)`
+  - Third parameter of method `BlockActor.onUse` changed from `Vector` to `Vec3d`
+- **New `KEX.BiomesModule`** with **accessors to properties of all the registered biomes**, and some new useful features for modded biomes
+  - Human-readable names for all vanilla biomes in 23 languages (ported from Java Edition)
+  - `BiomesModule.setBiomeTranslationKey`: Custom translation keys for custom biomes' names
+  - `BiomesModule.setModNameForBiome`: Specify the name of the mod adding a custom biome
+  - New methods `BlockSource.getBiome` and `BlockSource.getBiomeFast`, which allow to get the biome on any coordinates, even when the needed chunk is not loaded
+  - Added `BiomesInitialized` callback
+- Added `attacker` and `victim` parameters to custom tool parameters object's `getAttackDamageBonus` method
+
+### _**Bug fixes and improvements:**_
+
+- Fixed `Actor.removeEffects` method crashing
+- Fixed `ItemsModule`'s tooltip not fully functioning
+- Fixed 4 important `ToolAPI` bugs, many thanks to [Nikujagajaga](https://github.com/Nikujagajaga) for reporting all the issues and testing their fixes with Tinker's Construct mod. KEX's `ToolAPI` is now considered 99% correctly functional.
+
 ## **RELEASE 4.0**
 
 ### _**Additions:**_

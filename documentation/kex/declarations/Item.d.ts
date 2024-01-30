@@ -306,9 +306,13 @@ export namespace Item {
         /**
          * @returns attack damage value used instead of the tool material's `attackDamageBonus` value,
          * calculated depending on the given [[ItemInstance]].
+         * @param attacker **_Added in 5.0_**. Unique ID of the player entity which attacked another entity.
+         * Set to 0 when this method is not called within an attack event.
+         * @param victim **_Added in 5.0_**. Unique ID of the entity which was attacked by the player.
+         * Set to 0 when this method is not called within an attack event.
          * @since 1.0
          */
-        getAttackDamageBonus?: (item: ItemInstance) => number;
+        getAttackDamageBonus?: (item: ItemInstance, attacker: number, victim: number) => number;
 
     }
 

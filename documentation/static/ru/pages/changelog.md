@@ -1,5 +1,40 @@
 # Список изменений в обновлениях мода Kernel Extension
 
+## **RELEASE 5.0**
+
+### ПОСЛЕДНЕЕ КРУПНОЕ ОБНОВЛЕНИЕ, РАЗРАБОТКА НОВЫХ ФИЧ ПРИОСТАНОВЛЕНА
+
+### _**Нововведения:**_
+
+- **Переработка API блокстейтов:**
+  - Новый класс `BlockState`, содержащий методы, схожие с аналогичными в Forge
+  - Модуль `BlockStates`, содержащий **функции для регистрации кастомных свойств блоков** и определения числовых энумов для некоторых ванильных свойств блоков
+  - Модуль `VanillaStates`, содержащий все ванильные свойства блоков в виде объектов `Property`
+  - `BlockState` InnerCore заменён на `BlockState` KEX везде, где использовался
+  - Новый метод `BlocksModule.registerStateForBlock(id, property)`
+  - Новые методы `BlockSource`: `getBlockState`, `setBlockState`, `setBlockStateNoUpdate`
+- **Forge-подобные конфигурации модов** на основе адаптированной под Android библиотеки `night-config`, с этим планируется сделать больше
+- Добавлены некоторые внутренние классы векторной математики в публичный API. См. модуль `KEX.Math` в документации. Впоследствии:
+  - Новый метод `BlocksModule.registerComparatorSignalCallback` с калбек-функцией другого типа, использующей классы `BlockPos` и `Direction` вместо объекта `Callback.ItemUseCoordinates`
+  - Новая перегрузка `BlockSource.getCustomBlockEntity` с `BlockPos` вместо трёх координат
+  - Третий параметр `TileEntityCreationCallback`изменён с `Vector` на `BlockPos`
+  - `BlockActor.getBlockPos` возвращает `BlockPos` вместо `Vector`
+  - Новый метод `BlockActor.onNeighborChanged(blockPos)`
+  - Третий параметр метода `BlockActor.onUse` изменён с `Vector` на `Vec3d`
+- **Новый `KEX.BiomesModule`** с **методами получения свойств всех зарегистрированных биомов** и некоторыми новыми полезными фичами для кастомных биомов
+  - Читабельные имена всех ванильных биомов на 23 языках (портировано с Java Edition)
+  - `BiomesModule.setBiomeTranslationKey`: Кастомные ключи перевода для имён кастомных биомов
+  - `BiomesModule.setModNameForBiome`: Укажите имя мода, добавляющего кастомный биом
+  - Новые методы `BlockSource.getBiome` и `BlockSource.getBiomeFast`, позволяющие получить биом на любых координатах, даже если нужный чанк не прогружен
+  - Добавлен калбек `BiomesInitialized`
+- Добавлены параметры `attacker` и `victim` в метод `getAttackDamageBonus` объекта параметров кастомного инструмента
+
+### _**Исправления багов и улучшения:**_
+
+- Исправлен вылет метода `Actor.removeEffects`
+- Исправлено неполное функционирование тултипа `ItemsModule`
+- Исправлено 4 важных бага `ToolAPI`, большое спасибо [Nikujagajaga](https://github.com/Nikujagajaga) за сообщения обо всех проблемах и тестирование их фиксов с модом Tinker's Construct. `ToolAPI` KEX отныне можно считать корректно функционирующим на 99%.
+
 ## **RELEASE 4.0**
 
 ### _**Нововведения:**_
